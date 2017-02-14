@@ -1,0 +1,41 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#test {
+	margin: 25px;
+	font-family: Arial;
+}
+
+#check-result {
+	margin-top: 20px;
+	padding: 2px;
+}
+
+h1 {
+	font-size: 20px;
+}
+
+li {
+	margin-top: 15px;
+}
+
+.variants {
+	margin-left: 20px;
+}
+
+.variants label {
+	font-weight: 400;
+}
+
+input[type=radio] {
+	margin: 4px 0;
+	margin-right: 10px;
+	position: relative;
+}
+
+.modal {
+	top: 50px;
+	overflow: inherit;
+}
