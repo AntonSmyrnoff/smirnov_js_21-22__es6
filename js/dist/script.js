@@ -34,58 +34,70 @@ $(function () {
 
 var sum = 0;
 var button = document.getElementById('button');
-console.log(button);
+var rightAnswers = [];
+for (var i = 0; i < testForGen.questionList.length; i++) {
+  rightAnswers.push(testForGen.questionList[i].rightAnswer); //получили массив с верными ответами
+}
+console.log('Номера правильных ответов: ' + rightAnswers);
 
 button.addEventListener('click', checkResult);
 
 function checkResult() {
   var input = document.getElementsByTagName('input');
   var inputChecked = [];
-  for (var i = 0; i < input.length; i++) {
-    if (input[i].checked) {
-      inputChecked.push(input[i]);
+  for (var _i = 0; _i < input.length; _i++) {
+    if (input[_i].checked) {
+      inputChecked.push(input[_i]); // получили массив с выбранными инпутами
     }
   }
-  console.log(inputChecked);
-}
 
-/*  $('#checkResult').on('click', function() {    
-    $('input:checked').each(function() {
-      let inputCheckedId = $(this).attr('id');
-      
-      let ques = Math.floor(inputCheckedId/10); //номер вопроса
-      let answ = inputCheckedId%10; //номер выбранного ответа
+  var answersID = [];
+  for (var _i2 = 0; _i2 < inputChecked.length; _i2++) {
+    var answer = +inputChecked[_i2].id % 10; //получаем массив с номерами ответов пользователя
+    answersID.push(answer);
+  }
+  console.log('Номера ответов пользователя: ' + answersID);
 
-      if (testForGen.questionList[ques-1].rightAnswer === answ) {
-        sum += 1
-      }
-
-      $(this).attr('checked', false)//очищаем инпуты
-    })
-
-    openModal();
-    closeModal();
-    if (sum == testForGen.questionList.length) {
-      $('.modal-body p').html('Тест пройден!');
-      sum = 0; //после закрытия модальки обнуляем сумму и можно проходить тест заново без перезагрузки страницы
-      return sum
+  for (var _i3 = 0; _i3 < rightAnswers.length; _i3++) {
+    if (answersID[_i3] == rightAnswers[_i3]) {
+      sum += 1;
     }
-    else {
-      $('.modal-body p').html('Тест не пройден... Количество неправильных ответов: ' + (testForGen.questionList.length - sum) );
-      sum = 0;
-      return sum
-    };
+  };
 
-  })
-
-  function openModal() {
-    $('.modal').css({'display' : 'block'});
-    $('.fade').css({'opacity' : 1});
+  for (var _i4 = 0; _i4 < input.length; _i4++) {
+    //очищаем инпуты, можно проходить тест без перезагрузки страницы
+    input[_i4].checked = false;
   }
 
-  function closeModal() {
-    $('.btn').click(function() {
-        $('.modal').css({'display' : 'none'});
-        $('.fade').css({'opacity' : 0});
-      })
-  }*/
+  //Вывод результатов теста на экран
+  var modal = document.querySelector('.modal');
+  var fade = document.querySelector('.fade');
+  var btn = document.querySelector('.btn');
+  var p = modal.querySelector('p');
+  var wrongAnswers = rightAnswers.length - sum;
+
+  openModal(modal, fade);
+  closeModal(modal, fade, btn);
+
+  if (sum == rightAnswers.length) testResult(p, wrongAnswers, 'Тест пройден');else testResult(p, wrongAnswers);
+};
+
+var openModal = function openModal(block_1, block_2) {
+  block_1.style.display = 'block';
+  block_2.style.opacity = 1;
+};
+
+var closeModal = function closeModal(block_1, block_2, btn) {
+  btn.addEventListener('click', function () {
+    block_1.style.display = 'none';
+    block_2.style.opacity = 0;
+  });
+};
+
+var testResult = function testResult(block, a) {
+  var innerText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'Тест не пройден... Количество неправильных ответов: ' + a;
+
+  block.innerHTML = innerText;
+  sum = 0;
+  return sum;
+};
