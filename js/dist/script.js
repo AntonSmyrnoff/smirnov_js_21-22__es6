@@ -34,7 +34,9 @@ $(function () {
 
 var sum = 0;
 var button = document.getElementById('button');
+
 var rightAnswers = [];
+
 for (var i = 0; i < testForGen.questionList.length; i++) {
   rightAnswers.push(testForGen.questionList[i].rightAnswer); //получили массив с верными ответами
 }
@@ -53,8 +55,9 @@ function checkResult() {
 
   var answersID = [];
   for (var _i2 = 0; _i2 < inputChecked.length; _i2++) {
-    var answer = +inputChecked[_i2].id % 10; //получаем массив с номерами ответов пользователя
-    answersID.push(answer);
+    var ques = Math.floor(+inputChecked[_i2].id / 10);
+    var answer = +inputChecked[_i2].id % 10; //номер ответа пользователя 
+    answersID[ques - 1] = answer; //получаем массив с номерами ответов пользователя
   }
   console.log('Номера ответов пользователя: ' + answersID);
 

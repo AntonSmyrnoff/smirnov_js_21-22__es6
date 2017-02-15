@@ -38,7 +38,9 @@ $(function () {
 
 let sum = 0;
 let button = document.getElementById('button');
+
 let rightAnswers = [];
+
 for (let i = 0; i<testForGen.questionList.length; i++) {
   rightAnswers.push(testForGen.questionList[i].rightAnswer); //получили массив с верными ответами
 }
@@ -57,8 +59,9 @@ function checkResult() {
 
   let answersID = [];
   for (let i = 0; i<inputChecked.length; i++) {
-    let answer = (+inputChecked[i].id)%10;  //получаем массив с номерами ответов пользователя
-    answersID.push(answer);
+  	let ques = Math.floor( (+inputChecked[i].id)/10 )
+    let answer = (+inputChecked[i].id)%10; //номер ответа пользователя 
+    answersID[ques-1] = answer; //получаем массив с номерами ответов пользователя
   }
   console.log('Номера ответов пользователя: ' + answersID);
 
